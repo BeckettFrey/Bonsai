@@ -31,7 +31,7 @@ Bonsai filters your file tree just like Git does, producing a minimalist view of
 Install Bonsai using pip for standard usage:
 
 ```bash
-pipx install https://github.com/BeckettFrey/Bonsai.git
+pipx install git+https://github.com/BeckettFrey/Bonsai.git
 ```
 
 Or for active development:

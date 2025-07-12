@@ -1,12 +1,13 @@
 # Bonsai 🌳
-
 ![CI](https://github.com/BeckettFrey/Bonsai/actions/workflows/test.yml/badge.svg)
 
-Bonsai is a lightweight Python command-line utility that elegantly displays directory structures while respecting .gitignore patterns. It's perfect for AI-assisted workflows — filtering out clutter to reveal only the meaningful parts of your project for language models, code analysis, or team reviews.
+**bonsai** is a lightweight Python command-line utility that elegantly displays directory structures while respecting .gitignore patterns. It's perfect for AI-assisted workflows — filtering out clutter to reveal only the meaningful parts of your project for language models, code analysis, or team reviews.
 
-⚠️ **Experimental**: This project is under active development. Expect occasional breaking changes and potential new features.
+> ⚠️ **Experimental**: This project is under active development. Expect occasional breaking changes and potential new features.
 
-✨ Designed for developers who want clean, focused project trees for both human and AI consumption.
+> ✨ Designed for developers who want clean, focused project trees for both human and AI consumption.
+
+---
 
 ## 🔧 Features
 
@@ -17,6 +18,8 @@ Bonsai is a lightweight Python command-line utility that elegantly displays dire
 - 🚀 Generates lightweight context snapshots for AI tools and code exploration
 - ✅ Extensible via config.json to support advanced filtering or output tweaks
 
+---
+
 ## 💡 Why Bonsai?
 
 Bonsai filters your file tree just like Git does, producing a minimalist view of the meaningful source structure. This is invaluable for:
@@ -25,6 +28,8 @@ Bonsai filters your file tree just like Git does, producing a minimalist view of
 - 📚 Documentation or onboarding diagrams
 - 🛠️ CI checks on directory structure
 - ⚡ Quickly exploring unfamiliar codebases
+
+---
 
 ## ⚙️ Installation
 
@@ -42,11 +47,15 @@ cd Bonsai
 pip install -e .
 ```
 
+---
+
 ## 🚀 Usage
 
 ```bash
 bonsai [path] [options]
 ```
+
+---
 
 If no path is provided, Bonsai defaults to the current directory.
 
@@ -66,6 +75,8 @@ bonsai . --show-hidden --no-gitignore
 bonsai --format json
 ```
 
+---
+
 ## 📝 Options
 
 | Option | Description |
@@ -81,6 +92,8 @@ bonsai --format json
 | `-o, --output` | Write output to file instead of stdout |
 | `-f, --format` | Output format: tree (default) or json |
 | `--version` | Show version and exit |
+
+---
 
 ## 🧠 Example Workflow
 
@@ -107,6 +120,8 @@ Or programmatically:
 }
 ```
 
+---
+
 ## 🚫 Ignore & Include Patterns
 
 Respects .gitignore by default, matching exactly what Git tracks.
@@ -118,6 +133,8 @@ bonsai --ignore "*.log" --include "!important.log"
 ```
 
 Customize global patterns in config.json for persistent project-level tweaks.
+
+---
 
 ## ⚙️ Configuration
 
@@ -135,6 +152,8 @@ Controls:
 
 Edit this file to adapt Bonsai to your organization's needs.
 
+---
+
 ## 🛣️ Roadmap
 
 Planned enhancements for Bonsai:
@@ -143,6 +162,8 @@ Planned enhancements for Bonsai:
 - 📈 Inline directory statistics summary (file count, size)
 - 🚀 VS Code extension for inline visualization
 - 🧪 CI guardrails for tree shape validation
+
+---
 
 ## ✅ Testing & Development
 
@@ -156,6 +177,8 @@ pytest
 ```
 
 🔍 Tests are organized under `tests/` by integration and unit.
+
+---
 
 ## 📄 License
 

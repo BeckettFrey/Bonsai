@@ -1,0 +1,29 @@
+# pyproject.toml
+[project]
+name = "bonsai"
+version = "0.1.0.dev0"
+description = "Python CLI utility that displays directory structures, and respects .gitignore."
+authors = [{ name = "Beckett Frey", email = "beckett.frey@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.13.2"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+bonsai = "bonsai.cli:cli"
+
+[build-system]
+requires = ["setuptools>=77.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"bonsai" = ["config.json"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

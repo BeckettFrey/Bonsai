@@ -1,0 +1,13 @@
+{
+  "root_path": ".",
+  "max_depth": 3,
+  "show_hidden": false,
+  "use_icons": true,
+  "show_size": true,
+  "color_output": true,
+  "respect_gitignore": true,
+  "custom_ignore_patterns": ["*.log", "node_modules/", "venv/"],
+  "force_include_patterns": ["README.md"],
+  "output_file": null,
+  "output_format": "tree"
+}

@@ -33,13 +33,13 @@ Bonsai filters your file tree just like Git does, producing a minimalist view of
 
 ## ⚙️ Installation
 
-Install Bonsai using pip for standard usage:
+Install Bonsai using pipx for standard usage:
 
 ```bash
 pipx install git+https://github.com/BeckettFrey/Bonsai.git
 ```
 
-Or for active development:
+Or for active development pip is fine:
 
 ```bash
 git clone https://github.com/BeckettFrey/Bonsai.git

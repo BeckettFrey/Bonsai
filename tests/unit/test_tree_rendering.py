@@ -1,4 +1,4 @@
-# File: tests/unit/test_header_insertion.py
+# File: tests/unit/test_tree_rendering.py
 """
 Tests for header insertion and file content features in Bonsai
 """

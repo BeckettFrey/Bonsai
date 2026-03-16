@@ -1,37 +1,24 @@
-# Bonsai 🌳
+# Bonsai
 ![CI](https://github.com/BeckettFrey/Bonsai/actions/workflows/test.yml/badge.svg)
 
 **bonsai** is a lightweight Python command-line utility that elegantly displays directory structures while respecting .gitignore patterns. It's perfect for AI-assisted workflows — filtering out clutter to reveal only the meaningful parts of your project for language models, code analysis, or team reviews.
 
-> ⚠️ **Experimental**: This project is under active development. Expect occasional breaking changes and potential new features.
-
-> ✨ Designed for developers who want clean, focused project trees for both human and AI consumption.
+> **Experimental**: Install in development mode and use at your own discretion.
 
 ---
 
-## 🔧 Features
-
-- 🌱 Respects .gitignore patterns automatically
-- 📂 Clean Unicode tree visualization (or JSON for programmatic use)
-- ⚙️ Configurable depth limits, hidden file visibility, and output formats
-- 🎨 Optional icons, sizes, and color highlighting
-- 🚀 Generates lightweight context snapshots for AI tools and code exploration
-- ✅ Extensible via config.json to support advanced filtering or output tweaks
-
----
-
-## 💡 Why Bonsai?
+## Why Bonsai?
 
 Bonsai filters your file tree just like Git does, producing a minimalist view of the meaningful source structure. This is invaluable for:
 
-- 🔍 Providing context to AI assistants (codegen, review, summarization)
-- 📚 Documentation or onboarding diagrams
-- 🛠️ CI checks on directory structure
-- ⚡ Quickly exploring unfamiliar codebases
+- Providing context to AI assistants (codegen, review, summarization)
+- Documentation or onboarding diagrams
+- CI checks on directory structure
+- Quickly exploring unfamiliar codebases
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 Install Bonsai using pipx for standard usage:
 
@@ -49,7 +36,7 @@ pip install -e .
 
 ---
 
-## 🚀 Usage
+## Quick Start
 
 ```bash
 bonsai [path] [options]
@@ -77,7 +64,7 @@ bonsai --format json
 
 ---
 
-## 📝 Options
+## Options
 
 | Option | Description |
 |--------|-------------|
@@ -95,7 +82,7 @@ bonsai --format json
 
 ---
 
-## 🧠 Example Workflow
+## Example Workflow
 
 ```bash
 ❯ bonsai src/ --max-depth 2 --icons --size
@@ -122,7 +109,7 @@ Or programmatically:
 
 ---
 
-## 🚫 Ignore & Include Patterns
+## Ignore & Include Patterns
 
 Respects .gitignore by default, matching exactly what Git tracks.
 
@@ -136,7 +123,7 @@ Customize global patterns in config.json for persistent project-level tweaks.
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 Located at:
 
@@ -154,18 +141,18 @@ Edit this file to adapt Bonsai to your organization's needs.
 
 ---
 
-## 🛣️ Roadmap
+## Roadmap
 
 Planned enhancements for Bonsai:
 
-- 🌐 Add YAML output support
-- 📈 Inline directory statistics summary (file count, size)
-- 🚀 VS Code extension for inline visualization
-- 🧪 CI guardrails for tree shape validation
+- Add YAML output support
+- Inline directory statistics summary (file count, size)
+- VS Code extension for inline visualization
+- CI guardrails for tree shape validation
 
 ---
 
-## ✅ Testing & Development
+## Testing & Development
 
 Clone the repo and run tests with:
 
@@ -180,10 +167,6 @@ pytest
 
 ---
 
-## 📄 License
+## License
 
 MIT License. See LICENSE for details.
-
-## 🤝 Contributing
-
-Bonsai is evolving! Bug reports, feature suggestions, and PRs are all welcome.

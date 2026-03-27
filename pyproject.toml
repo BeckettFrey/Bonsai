@@ -3,7 +3,7 @@
 name = "bonsai"
 version = "0.1.0.dev0"
 description = "Python CLI utility that displays directory structures, and respects .gitignore."
-authors = [{ name = "Beckett Frey", email = "beckett.frey@gmail.com" }]
+authors = [{ name = "Beckett Frey", email = "code@beckettfrey.com" }]
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.13.2"

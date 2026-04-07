@@ -39,37 +39,47 @@ class TreeProcessor:
     
     def _load_ignore_patterns(self):
         """Load ignore patterns from .gitignore files"""
-        if not self.config.respect_gitignore:
-            return
-        
-        root_path = self.config.get_root_path()
-        gitignore_files = find_gitignore_files(root_path)
-        
-        for gitignore_file in gitignore_files:
-            ignore_pats, include_pats = parse_gitignore(gitignore_file)
-            self.ignore_patterns.update(ignore_pats)
-            self.include_patterns.update(include_pats)
-        
-        # Add custom patterns
+        if self.config.respect_gitignore:
+            root_path = self.config.get_root_path()
+            gitignore_files = find_gitignore_files(root_path)
+
+            for gitignore_file in gitignore_files:
+                ignore_pats, include_pats = parse_gitignore(gitignore_file)
+                self.ignore_patterns.update(ignore_pats)
+                self.include_patterns.update(include_pats)
+
+        # Always add custom patterns regardless of respect_gitignore
         self.ignore_patterns.update(self.config.custom_ignore_patterns)
         self.include_patterns.update(self.config.force_include_patterns)
     
-    def should_ignore(self, path: Path, relative_path: str) -> bool:
+    def should_ignore(self, path: Path, relative_path: str, is_dir: bool = None) -> bool:
         """Check if path should be ignored"""
+        if is_dir is None:
+            is_dir = path.is_dir()
+
+        # Check include patterns first (they override ignore patterns and hidden check)
+        for pattern in self.include_patterns:
+            if matches_pattern(relative_path, pattern, is_dir):
+                return False
+
         # Check if hidden and not showing hidden files
         if not self.config.show_hidden and path.name.startswith('.'):
             return True
-        
-        # Check include patterns first (they override ignore patterns)
-        for pattern in self.include_patterns:
-            if matches_pattern(relative_path, pattern, path.is_dir()):
-                return False
-        
+
         # Check ignore patterns
         for pattern in self.ignore_patterns:
-            if matches_pattern(relative_path, pattern, path.is_dir()):
+            if matches_pattern(relative_path, pattern, is_dir):
                 return True
-        
+
+        # For non-directory paths, check if any ancestor directory is ignored
+        if not is_dir and '/' in relative_path:
+            parts = relative_path.split('/')
+            for i in range(1, len(parts)):
+                ancestor = '/'.join(parts[:i])
+                for pattern in self.ignore_patterns:
+                    if matches_pattern(ancestor, pattern, is_dir=True):
+                        return True
+
         return False
     
     def build_tree(self, root_path: Path, current_depth: int = 0) -> Optional[TreeNode]:

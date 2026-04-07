@@ -12,12 +12,25 @@ from typing import List, Tuple
 def find_gitignore_files(root_path: Path) -> List[Path]:
     """Find all .gitignore files in the directory tree"""
     gitignore_files = []
-    
+
+    # Search root_path and its parents
     for current_path in [root_path] + list(root_path.parents):
         gitignore_path = current_path / ".gitignore"
         if gitignore_path.exists():
             gitignore_files.append(gitignore_path)
-    
+
+    # Also search subdirectories of root_path
+    if root_path.is_dir():
+        for gitignore_path in root_path.rglob(".gitignore"):
+            if gitignore_path not in gitignore_files:
+                # Skip .gitignore files inside hidden directories
+                try:
+                    rel = gitignore_path.parent.relative_to(root_path)
+                    if not any(part.startswith('.') for part in rel.parts):
+                        gitignore_files.append(gitignore_path)
+                except ValueError:
+                    pass
+
     return gitignore_files
 
 
@@ -48,6 +61,42 @@ def parse_gitignore(gitignore_path: Path) -> Tuple[List[str], List[str]]:
     return ignore_patterns, include_patterns
 
 
+def _path_match(path_str: str, pattern: str) -> bool:
+    """Match path against pattern, respecting that * should not match /"""
+    if '**' in pattern:
+        # ** matches zero or more directories
+        # Try matching with ** expanded to different depths
+        pat_parts = pattern.split('/')
+        path_parts = path_str.split('/')
+        return _match_parts(path_parts, pat_parts)
+    # For patterns with /, match component by component so * doesn't cross /
+    pat_parts = pattern.split('/')
+    path_parts = path_str.split('/')
+    if len(pat_parts) != len(path_parts):
+        return False
+    return all(fnmatch.fnmatch(p, pp) for p, pp in zip(path_parts, pat_parts))
+
+
+def _match_parts(path_parts: list, pat_parts: list) -> bool:
+    """Recursively match path parts against pattern parts with ** support"""
+    if not pat_parts and not path_parts:
+        return True
+    if not pat_parts:
+        return False
+    if pat_parts[0] == '**':
+        # ** matches zero or more path components
+        rest_pat = pat_parts[1:]
+        for i in range(len(path_parts) + 1):
+            if _match_parts(path_parts[i:], rest_pat):
+                return True
+        return False
+    if not path_parts:
+        return False
+    if fnmatch.fnmatch(path_parts[0], pat_parts[0]):
+        return _match_parts(path_parts[1:], pat_parts[1:])
+    return False
+
+
 def matches_pattern(path_str: str, pattern: str, is_dir: bool = False) -> bool:
     """Check if path matches a gitignore pattern"""
     # Handle directory patterns
@@ -55,16 +104,16 @@ def matches_pattern(path_str: str, pattern: str, is_dir: bool = False) -> bool:
         if not is_dir:
             return False
         pattern = pattern[:-1]
-    
+
     # Handle absolute patterns (starting with /)
     if pattern.startswith('/'):
         pattern = pattern[1:]
-        return fnmatch.fnmatch(path_str, pattern)
-    
+        return _path_match(path_str, pattern)
+
     # Handle patterns with path separators
     if '/' in pattern:
-        return fnmatch.fnmatch(path_str, pattern)
-    
+        return _path_match(path_str, pattern)
+
     # Match against any part of the path
     path_parts = path_str.split('/')
     return any(fnmatch.fnmatch(part, pattern) for part in path_parts)

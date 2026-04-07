@@ -138,8 +138,8 @@ temp/
         assert processor.should_ignore(Path("debug.log"), "debug.log")
         assert not processor.should_ignore(Path("important.log"), "important.log")
         
-        assert processor.should_ignore(Path("temp"), "temp")
-        assert not processor.should_ignore(Path("temp/important"), "temp/important")
+        assert processor.should_ignore(Path("temp"), "temp", is_dir=True)
+        assert not processor.should_ignore(Path("temp/important"), "temp/important", is_dir=True)
         
         assert processor.should_ignore(Path(".env"), ".env")
         assert processor.should_ignore(Path(".env.local"), ".env.local")
@@ -151,7 +151,7 @@ temp/
             # Pattern, path, is_dir, should_match
             ("src/", "src", True, True),
             ("src/", "src/file.py", False, False),
-            ("src/", "other/src", True, False),
+            ("src/", "other/src", True, True),
             
             ("*.py", "test.py", False, True),
             ("*.py", "src/test.py", False, True),

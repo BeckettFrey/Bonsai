@@ -334,11 +334,12 @@ class TestUtilityFunctions:
     @patch('builtins.open', new_callable=mock_open, read_data=b'Hello World')
     def test_is_text_file_by_extension(self, mock_file):
         """Test text file detection by extension"""
-        assert is_text_file(Path("test.txt")) is True
-        assert is_text_file(Path("test.py")) is True
-        assert is_text_file(Path("test.js")) is True
-        assert is_text_file(Path("test.md")) is True
-        assert is_text_file(Path("test.json")) is True
+        with patch.object(Path, 'is_file', return_value=True):
+            assert is_text_file(Path("test.txt")) is True
+            assert is_text_file(Path("test.py")) is True
+            assert is_text_file(Path("test.js")) is True
+            assert is_text_file(Path("test.md")) is True
+            assert is_text_file(Path("test.json")) is True
     
     @patch('builtins.open', new_callable=mock_open, read_data=b'\x00\x01\x02')
     def test_is_text_file_binary(self, mock_file):
@@ -488,7 +489,7 @@ class TestTreeProcessor:
         
         file_path = Path("/test/file.txt")
         
-        with patch('bonsai_tree.utils.get_file_size', return_value=1024):
+        with patch('bonsai.processor.get_file_size', return_value=1024):
             node = processor.build_tree(file_path)
         
         assert node is not None
@@ -597,8 +598,8 @@ class TestGitignoreHandling:
         assert len(processor.ignore_patterns) == 0
         assert len(processor.include_patterns) == 0
     
-    @patch('bonsai_tree.utils.find_gitignore_files')
-    @patch('bonsai_tree.utils.parse_gitignore')
+    @patch('bonsai.processor.find_gitignore_files')
+    @patch('bonsai.processor.parse_gitignore')
     def test_gitignore_loading(self, mock_parse, mock_find):
         """Test gitignore file loading"""
         # Mock finding gitignore files

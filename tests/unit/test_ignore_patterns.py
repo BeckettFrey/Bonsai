@@ -149,7 +149,7 @@ class TestTreeProcessor:
         processor = TreeProcessor(config)
         
         assert processor.should_ignore(Path("temp.tmp"), "temp.tmp")
-        assert processor.should_ignore(Path("cache"), "cache")
+        assert processor.should_ignore(Path("cache"), "cache", is_dir=True)
         assert not processor.should_ignore(Path("source.py"), "source.py")
     
     def test_force_include_patterns(self):
@@ -167,8 +167,8 @@ class TestTreeProcessor:
         # Should not ignore important.log due to force include
         assert not processor.should_ignore(Path("important.log"), "important.log")
     
-    @patch('bonsai.utils.find_gitignore_files')
-    @patch('bonsai.utils.parse_gitignore')
+    @patch('bonsai.processor.find_gitignore_files')
+    @patch('bonsai.processor.parse_gitignore')
     def test_load_ignore_patterns_from_gitignore(self, mock_parse, mock_find):
         """Test loading ignore patterns from .gitignore files"""
         mock_find.return_value = [Path("/project/.gitignore")]
@@ -227,11 +227,12 @@ class TestUtilityFunctions:
     
     def test_is_text_file_by_extension(self):
         """Test text file detection by extension"""
-        assert is_text_file(Path("test.txt"))
-        assert is_text_file(Path("test.py"))
-        assert is_text_file(Path("test.md"))
-        assert is_text_file(Path("test.json"))
-        
+        with patch.object(Path, 'is_file', return_value=True):
+            assert is_text_file(Path("test.txt"))
+            assert is_text_file(Path("test.py"))
+            assert is_text_file(Path("test.md"))
+            assert is_text_file(Path("test.json"))
+
         # Non-text extensions should check content
         with patch.object(Path, 'is_file', return_value=False):
             assert not is_text_file(Path("test.unknown"))
@@ -439,7 +440,8 @@ class TestIntegration:
         """Test tree formatting output"""
         config = Config(
             root_path=str(temp_project_dir),
-            respect_gitignore=True
+            respect_gitignore=True,
+            color_output=False
         )
         processor = TreeProcessor(config)
         

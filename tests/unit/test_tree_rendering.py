@@ -403,7 +403,7 @@ class TestConfigFunctionality:
         assert config.show_hidden is True
         assert config.use_icons is True
         assert config.show_size is True
-        assert config.color_output is True
+        assert config.color_output is False
         assert config.respect_gitignore is True
         assert config.custom_ignore_patterns == ["*.log", "*.tmp"]
         assert config.force_include_patterns == ["important.log"]

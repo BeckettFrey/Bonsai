@@ -40,7 +40,7 @@ class Config:
             show_hidden=args.show_hidden,
             use_icons=args.icons,
             show_size=args.size,
-            color_output=not args.no_color,
+            color_output=not args.no_color and args.output is None,
             respect_gitignore=not args.no_gitignore,
             custom_ignore_patterns=args.ignore or [],
             force_include_patterns=args.include or [],
